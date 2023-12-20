@@ -1,0 +1,36 @@
+<h2>Introduction to fs module</h2>
+<div class="step-text">
+<p>As you remember, pure JavaScript has limitations because it was originally designed for browsers only. But the Node.js platform allows you to interact with the file system. In this topic, we will find out what the <strong>fs</strong> module is.</p>
+<h5 id="import-fs-module">Import fs module</h5>
+<p>First, let's clarify that <strong>fs</strong> is just short for the <strong>file system</strong>. Let's take a look at importing the fs module using the CommonJS and ES6 Module syntax.</p>
+<p>Here's the CommonJS syntax:</p>
+<pre><code class="language-javascript">const fs = require('node:fs');</code></pre>
+<p>And here's an example of the ESM (ES6 modules) syntax:</p>
+<pre><code class="language-javascript">import * as fs from 'node:fs';</code></pre>
+<p>In this case, we will use the synchronous and the callback APIs, although it's not the only option.</p>
+<p></p><div class="alert alert-warning">Many third-party materials use <code class="language-javascript">const fs = require('fs')</code>. It will work, but it is better to use the way shown above (with <code class="language-javascript">node:fs</code>). It is due to security in case of using a similar npm package name.</div>
+<h5 id="sync-api">Sync API</h5>
+<p>It might be that Node.js was specifically designed for creative people who want to have multiple options to do the same thing. You have already seen that you can import the fs module in two different ways. Now, let's look at other ways to interact with files.</p>
+<p>The most important thing for us is reading files. Consider the following syntax:</p>
+<pre><code class="language-javascript">const fs = require('node:fs');
+
+const data = fs.readFileSync('../source.js', 'utf-8');
+
+console.log(data);</code></pre>
+<p>The first argument to the <code class="language-javascript">readFileSync</code> method is the path to the file that we want to read. The second parameter is optional, but we can pass information about the encoding there, as we did. As you can see, the <code class="language-javascript">source.js</code> file is one level higher. Also, you should have noticed that we can read not only text files. Moreover, we can read the file where the above function is called.</p>
+<p></p><div class="alert alert-primary">If you don't specify an encoding (for example, <code class="language-javascript">'utf-8'</code>) as the second argument, then a buffer will be returned, not a string.</div>
+<p>We have considered a synchronous function, which means that while reading the file, the thread is waiting for the result of the function execution. If the file is too large, then we will have to wait for a very long time for this operation to complete.</p>
+<h5 id="callback-api">Callback API</h5>
+<p>Let's look at another way to read the same <code class="language-javascript">source.js</code> file, but this time via the asynchronous way:</p>
+<pre><code class="language-javascript">const fs = require('node:fs');
+
+const data = fs.readFile('../source.js', 'utf-8', (err, data) =&gt; {
+    if (err) throw err;
+    console.log(data);
+});
+</code></pre>
+<p>The first two arguments of the method are similar to the synchronous version, but now we must use the required callback argument. In our case, we use an arrow function, in which the error is passed as the first parameter and the contents of the file as the second one.</p>
+<p>The callback API is better than the synchronous one because subsequent synchronous operations will be performed without waiting for any large file to be read.</p>
+<h5 id="conclusion">Conclusion </h5>
+<p>In this topic, we've looked at different options for importing and using the fs module. You've learned the pros and cons of callback and synchronous APIs and figured out how to read files using different methods.</p>
+</div>
